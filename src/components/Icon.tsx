@@ -80,6 +80,7 @@ const IconModal = ({ open, setOpen, onClick }: IProps) => {
       onClose={() => {
         setOpen(false);
       }}
+      isDismissable={false}
     >
       <ModalContent>
         <ModalHeader>Icons</ModalHeader>

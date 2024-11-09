@@ -1,42 +1,107 @@
-const buildUrlWithParams = (
-  baseUrl: string,
-  params: Record<string, string | number>
-): string => {
-  const queryString = Object.entries(params)
-    .map(
-      ([key, value]) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-    )
-    .join("&");
+import { GetServerSidePropsContext } from "next";
 
-  return `${baseUrl}?${queryString}`;
+type HttpMethod = "GET" | "POST" | "PUT";
+
+interface FetchOptions {
+  method: HttpMethod;
+  headers?: Record<string, string>;
+  params?: Record<string, string>;
+  body?: any;
+}
+
+interface FetchResult<T> {
+  data: T | null;
+  error: Error | null;
+}
+
+const buildQueryParams = (params: Record<string, string>): string => {
+  const queryString = new URLSearchParams(params).toString();
+  return queryString ? `?${queryString}` : "";
 };
 
-export const myfetch = async ({
-  path,
-  method = "GET",
-  data = {},
-}: {
-  path: string;
-  method?: "GET" | "POST";
-  data?: any;
-}) => {
-  let url = "http://127.0.0.1:3001/api/" + path;
-  if (method === "GET") {
-    url = buildUrlWithParams(url, data);
+export const HOST =
+  process.env.NODE_ENV === "production"
+    ? "https://charlescrazy.fun/"
+    : "http://127.0.0.1:3000/";
+
+const prefix = "api/";
+
+export const MY_PATH = HOST + prefix;
+
+const defaultHeaders = {
+  "Content-Type": "application/json",
+};
+
+const fetchUtility = async <T>(
+  path: string,
+  options: FetchOptions,
+  ctx?: GetServerSidePropsContext
+): Promise<FetchResult<T>> => {
+  let url = MY_PATH + path;
+
+  const { method, params, body } = options;
+
+  if (ctx) {
+    // @ts-ignore
+    defaultHeaders.Cookie = ctx?.req?.headers?.cookie;
   }
-  return await fetch(url, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method,
-    body: method === "POST" ? JSON.stringify(data) : null,
-  })
-    .then((data) => {
-      return data.json();
-    })
-    .catch((e) => {
-      console.log(e);
-      return {};
-    });
+
+  const fetchOptions: RequestInit = {
+    method: method,
+    headers: { ...defaultHeaders, ...options.headers },
+    mode: "cors",
+    credentials: "include",
+  };
+
+  if (method === "GET" && params) {
+    url += buildQueryParams(params);
+  }
+
+  if ((method === "POST" || method === "PUT") && body) {
+    fetchOptions.body = JSON.stringify(body);
+  }
+
+  try {
+    const response = await fetch(url, fetchOptions);
+    if (!response.ok) {
+      const errMsg = `${url} --->  ${response.status} ${response.statusText}`;
+      console.error(errMsg);
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const { data } = await response.json();
+    return { data, error: null };
+  } catch (error) {
+    return {
+      data: null,
+      error:
+        error instanceof Error ? error : new Error("An unknown error occurred"),
+    };
+  }
 };
+
+export const myget = async <T>(
+  path: string,
+  params?: Record<string, string>,
+  ctx?: GetServerSidePropsContext
+): Promise<FetchResult<T>> => {
+  return fetchUtility<T>(path, { method: "GET", params }, ctx);
+};
+
+export const mypost = async <T>(
+  path: string,
+  body?: Object,
+  headers?: Record<string, string>
+): Promise<FetchResult<T>> => {
+  return fetchUtility<T>(path, { method: "POST", body, headers });
+};
+
+export const myput = async <T>(
+  path: string,
+  body?: Object,
+  headers?: Record<string, string>
+): Promise<FetchResult<T>> => {
+  return fetchUtility<T>(path, { method: "PUT", body, headers });
+};
+
+export const myFetch = { get: myget, post: mypost, put: myput };

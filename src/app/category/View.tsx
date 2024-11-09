@@ -2,49 +2,28 @@
 
 import Detail from "@/components/Category/Detail";
 import Item from "@/components/Category/ListItem";
-import { TCategory } from "@/type/category";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import { useState } from "react";
+import { useCategoryStore } from "../store/category";
 
-interface Props {
-  list: TCategory[];
-}
-
-const View = ({ list }: Props) => {
-  const [categories, setCategories] = useState<TCategory[]>(list || []);
-  const [open, setOpen] = useState(false);
+const View = () => {
+  const { categoryList, clickAdd, clickEdit } = useCategoryStore(
+    (store) => store
+  );
 
   return (
-    <main className="max-w-md mx-auto p-4 ">
-      <h1 className="text-2xl font-bold mb-4">Categories</h1>
-      <Link href="/" className="text-blue-500 hover:underline mb-4 block">
-        Back to Expenses
-      </Link>
+    <>
       <div className="mb-4">
-        <Button className="" onClick={() => setOpen(true)}>
+        <Button className="mb-2" onClick={clickAdd}>
           Add Category
         </Button>
       </div>
       <div>
-        {categories.map((item) => (
-          <Item key={item.name} data={item} setCategories={setCategories} />
+        {categoryList?.map((item) => (
+          <Item key={item.name} data={item} clickEdit={clickEdit} />
         ))}
       </div>
-      {open && (
-        <Detail
-          open={open}
-          setOpen={setOpen}
-          setCategories={setCategories}
-          type="ADD"
-          data={{
-            id: 0,
-            name: "",
-            icon: "",
-          }}
-        />
-      )}
-    </main>
+      <Detail />
+    </>
   );
 };
 
