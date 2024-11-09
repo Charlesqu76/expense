@@ -2,25 +2,22 @@ import { TCategory } from "@/type/category";
 import { findIcon } from "../Icon";
 import { IconContext } from "react-icons";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
-import Detail from "./Detail";
 
 interface IProps {
   data: TCategory;
-  setCategories: Function;
+  clickEdit: Function;
 }
 
-const Item = ({ setCategories, data }: IProps) => {
+const Item = ({ data, clickEdit }: IProps) => {
   const { name, icon } = data;
   const Icon = findIcon(icon);
-  const [open, setOpen] = useState(false);
   return (
     <>
       <Button
-        className="block w-full mb-1"
+        className="w-full h-12 mb-2 flex items-center justify-between p-4 rounded-lg bg-gray-50"
         variant="light"
         onClick={() => {
-          setOpen(true);
+          clickEdit(data);
         }}
       >
         <div className="flex items-center">
@@ -30,15 +27,6 @@ const Item = ({ setCategories, data }: IProps) => {
           <div className="ml-4">{name}</div>
         </div>
       </Button>
-      {open && (
-        <Detail
-          open={open}
-          setOpen={setOpen}
-          setCategories={setCategories}
-          type="EDIT"
-          data={data}
-        />
-      )}
     </>
   );
 };
