@@ -6,7 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@nextui-org/react";
-import { today, getLocalTimeZone, CalendarDate } from "@internationalized/date";
+import { CalendarDate } from "@internationalized/date";
 import { EDimensionality } from "@/type/summary";
 
 interface IProps {
@@ -61,7 +61,7 @@ export default function MyCalendar({
   };
 
   return (
-    <Popover isOpen={open} onOpenChange={setOpen}>
+    <Popover isOpen={open} onOpenChange={setOpen} placement="bottom">
       <PopoverTrigger>
         <Button
           variant="bordered"
@@ -71,20 +71,12 @@ export default function MyCalendar({
         </Button>
       </PopoverTrigger>
       <PopoverContent>
-        <div>
-          <div>
-            <Calendar
-              showMonthAndYearPickers
-              aria-label="Date (Presets)"
-              classNames={{
-                content: "w-full",
-              }}
-              focusedValue={value}
-              value={value}
-              onChange={changeCalendar}
-            />
-          </div>
-        </div>
+        <Calendar
+          showMonthAndYearPickers
+          aria-label="Date (Presets)"
+          value={value}
+          onChange={changeCalendar}
+        />
       </PopoverContent>
     </Popover>
   );

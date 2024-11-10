@@ -16,11 +16,9 @@ const View = () => {
 
   return (
     <>
-      <div className="mb-4">
-        <Button className="mb-2" onClick={clickAdd}>
-          Add Category
-        </Button>
-      </div>
+      <Button className="mb-2" onClick={clickAdd}>
+        Add Category
+      </Button>
       <div>
         {categoryList?.map((item) => (
           <Item key={item.name} data={item} clickEdit={clickEdit} />

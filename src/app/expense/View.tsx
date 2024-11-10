@@ -5,7 +5,7 @@ import { TCategory } from "@/type/category";
 import { Button } from "@nextui-org/react";
 import { useExpenseStore } from "../../store/expense";
 import dynamic from "next/dynamic";
-
+// import Detail from "@/components/transaction/Detail";
 const Detail = dynamic(() => import("@/components/transaction/Detail"), {
   ssr: false,
 });
