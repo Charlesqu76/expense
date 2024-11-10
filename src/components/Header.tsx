@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Navbar,
   NavbarBrand,
@@ -10,19 +10,28 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { capitalize } from "@/util";
+
+const menuItems = ["EXPENSE", "CATEGORY", "SUMMARY"];
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const menuItems = ["EXPENSE", "CATEGORY"];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-slate-200 mb-2">
+    <Navbar
+      className="bg-slate-200 mb-2"
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      isBordered
+    >
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
         <NavbarBrand className="flex justify-end">
-          <p className="font-bold text-inherit">{usePathname()}</p>
+          <p className="font-bold text-inherit">
+            {capitalize(usePathname().split("/").join(""))}
+          </p>
         </NavbarBrand>
       </NavbarContent>
 
@@ -32,7 +41,9 @@ const Header = () => {
             <Link
               className="w-full"
               href={item.toLocaleLowerCase()}
-              onClick={() => setIsMenuOpen(false)}
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
             >
               {item}
             </Link>

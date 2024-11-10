@@ -13,7 +13,6 @@ const Pie = ({ data }: IProps) => {
     },
     series: [
       {
-        name: "Access From",
         type: "pie",
         radius: "50%",
         data: getSumByCategory(data),

@@ -14,7 +14,7 @@ export default async function Expense() {
     getCategory(),
   ]);
   return (
-    <div className="px-2">
+    <div className="px-2 pb-4">
       <ExpenseProvider
         categoryList={category || []}
         expenseList={expense || []}

@@ -1,7 +1,7 @@
 import { FaAngleRight } from "react-icons/fa6";
 import dayjs from "dayjs";
 import { TCategory } from "@/type/category";
-import { findIcon } from "../Icon";
+// import { findIcon } from "../Icon";
 import { IconContext } from "react-icons";
 import { Button } from "@nextui-org/react";
 
@@ -13,16 +13,16 @@ interface IProps {
 const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
   const { amount, create_time, description, category_id } = data;
   const { name, icon } = categoryMap[category_id];
-  const Icon = findIcon(icon);
+  // const Icon = findIcon(icon);
   return (
     <Button
       className="w-full h-16  p-4 flex items-center justify-between rounded-lg bg-gray-50 cursor-pointer"
       onClick={() => clickEdit(data)}
     >
       <div className="flex">
-        <IconContext.Provider value={{ size: "22" }}>
+        {/* <IconContext.Provider value={{ size: "22" }}>
           <div className="flex items-center mr-2">{Icon}</div>
-        </IconContext.Provider>
+        </IconContext.Provider> */}
 
         <div className="flex flex-col items-start">
           <span className="font-medium text-gray-900">{name}</span>
@@ -32,7 +32,7 @@ const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <div className="text-red-600 font-bold">{amount}</div>
+        <div className="font-bold">{amount}</div>
         <FaAngleRight />
       </div>
     </Button>

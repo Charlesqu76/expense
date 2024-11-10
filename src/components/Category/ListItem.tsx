@@ -10,7 +10,7 @@ interface IProps {
 
 const Item = ({ data, clickEdit }: IProps) => {
   const { name, icon } = data;
-  const Icon = findIcon(icon);
+  // const Icon = findIcon(icon);
   return (
     <>
       <Button
@@ -21,9 +21,9 @@ const Item = ({ data, clickEdit }: IProps) => {
         }}
       >
         <div className="flex items-center">
-          <IconContext.Provider value={{ size: "22" }}>
+          {/* <IconContext.Provider value={{ size: "22" }}>
             <div>{Icon}</div>
-          </IconContext.Provider>
+          </IconContext.Provider> */}
           <div className="ml-4">{name}</div>
         </div>
       </Button>
