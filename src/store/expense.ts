@@ -46,7 +46,8 @@ export const createExpenseStore = (initProps?: Partial<ExpenseProps>) => {
     },
     getExpenses: async () => {
       const { data } = await getExpense();
-      set({ expenseList: data });
+      console.log(data);
+      set({ expenseList: data || [] });
     },
     clickAdd: () => {
       set({

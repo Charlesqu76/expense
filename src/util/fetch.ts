@@ -51,6 +51,7 @@ const fetchUtility = async <T>(
     headers: { ...defaultHeaders, ...options.headers },
     mode: "cors",
     credentials: "include",
+    cache: "no-cache",
   };
 
   if (method === "GET" && params) {

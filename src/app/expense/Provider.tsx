@@ -4,7 +4,7 @@ import {
   createExpenseStore,
   ExpenseContext,
   ExpenseStore,
-} from "../store/expense";
+} from "../../store/expense";
 import { TCategory } from "@/type/category";
 
 interface IProps {
