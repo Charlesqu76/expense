@@ -8,7 +8,7 @@ import { getCategory } from "@/fetch/category";
 interface CategoryProps {
   open: boolean;
   categoryList: TCategory[];
-  data: TCategory;
+  data: Partial<TCategory>;
   type: Status;
 }
 
@@ -57,7 +57,7 @@ export const createCategoryStore = (initProps?: Partial<CategoryProps>) => {
     },
     queryCategory: async () => {
       const { data } = await getCategory();
-      set({ categoryList: data });
+      set({ categoryList: data || [] });
     },
   }));
 };

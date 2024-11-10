@@ -1,10 +1,14 @@
 "use client";
 
 import ListItem from "@/components/transaction/ListItem";
-import Detail from "@/components/transaction/Detail";
 import { TCategory } from "@/type/category";
 import { Button } from "@nextui-org/react";
-import { useExpenseStore } from "../store/expense";
+import { useExpenseStore } from "../../store/expense";
+import dynamic from "next/dynamic";
+
+const Detail = dynamic(() => import("@/components/transaction/Detail"), {
+  ssr: false,
+});
 
 const ExpenseView = () => {
   const { categoryList, expenseList, clickAdd, clickEdit } = useExpenseStore(

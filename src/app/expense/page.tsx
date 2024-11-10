@@ -2,6 +2,11 @@ import { getExpense } from "@/fetch/expense";
 import ExpenseView from "./View";
 import { getCategory } from "@/fetch/category";
 import ExpenseProvider from "./Provider";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "expense",
+};
 
 export default async function Expense() {
   const [{ data: expense }, { data: category }] = await Promise.all([
@@ -10,7 +15,10 @@ export default async function Expense() {
   ]);
   return (
     <div className="px-2">
-      <ExpenseProvider categoryList={category} expenseList={expense}>
+      <ExpenseProvider
+        categoryList={category || []}
+        expenseList={expense || []}
+      >
         <ExpenseView />
       </ExpenseProvider>
     </div>

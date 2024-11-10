@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { addExpense, editExpense } from "@/fetch/expense";
-import { useExpenseStore } from "@/app/store/expense";
+import { useExpenseStore } from "@/store/expense";
 import { IconContext } from "react-icons";
 import { findIcon } from "../Icon";
 
@@ -49,9 +49,7 @@ const Detail = () => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Transaction
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Expense</ModalHeader>
               <ModalBody>
                 {/* <div className="flex items-center">
                   <span className="mr-2">Date</span>
@@ -68,7 +66,7 @@ const Detail = () => {
                     label="Amount"
                     type="number"
                     required
-                    value={amount}
+                    value={String(amount)}
                     onChange={(e) =>
                       setData({ ...data, amount: Number(e.target.value) })
                     }
@@ -77,7 +75,7 @@ const Detail = () => {
                 <div className="flex items-center">
                   <Select
                     label="Category"
-                    className="max-w-xs"
+                    defaultSelectedKeys={[String(category_id)]}
                     required
                     value={category_id}
                     onChange={(e) => {

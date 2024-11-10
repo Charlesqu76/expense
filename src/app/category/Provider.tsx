@@ -4,7 +4,7 @@ import {
   createCategoryStore,
   CategoryContext,
   CategoryStore,
-} from "../store/category";
+} from "../../store/category";
 import { TCategory } from "@/type/category";
 
 interface IProps {

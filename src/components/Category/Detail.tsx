@@ -13,7 +13,7 @@ import IconModal from "../Icon";
 import { FaAngleRight } from "react-icons/fa6";
 import { IconContext } from "react-icons";
 import { addCategory, editCategory } from "@/fetch/category";
-import { useCategoryStore } from "@/app/store/category";
+import { useCategoryStore } from "@/store/category";
 
 const Detail = () => {
   const { type, data, setData, open, setOpen, queryCategory } =
