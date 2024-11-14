@@ -1,8 +1,7 @@
-import { Select, SelectItem } from "@nextui-org/react";
-import { useState } from "react";
 import MyCalendar from "./Calendar";
 import { EDimensionality } from "@/type/summary";
-import { today, getLocalTimeZone } from "@internationalized/date";
+import { Select } from "antd";
+import { useSummaryStore } from "@/store/summary";
 
 export const dimensionalityList = [
   EDimensionality.DAILY,
@@ -12,33 +11,30 @@ export const dimensionalityList = [
 ];
 
 const S = () => {
-  const [dimensionality, setDimensionality] = useState(EDimensionality.DAILY);
-  const timeZone = getLocalTimeZone();
-  let defaultDate = today(timeZone);
-  const [start, setStart] = useState(defaultDate);
-  const [end, setEnd] = useState(defaultDate);
+  const { start, end, setEnd, setStart, dimensionality, setDimensionlity } =
+    useSummaryStore((store) => store);
 
   return (
-    <div className="">
+    <div className="p-4">
+      <div className="flex mb-2 space-x-2">
+        <MyCalendar
+          dimensionality={dimensionality}
+          value={start}
+          setValue={setStart}
+        />
+        <MyCalendar
+          dimensionality={dimensionality}
+          value={end}
+          setValue={setEnd}
+        />
+      </div>
+
       <Select
-        label="Dimensionality"
         value={dimensionality}
-        onChange={(e) => setDimensionality(e.target.value as any)}
-        defaultSelectedKeys={[EDimensionality.MONTHLY]}
-      >
-        {dimensionalityList.map((v) => (
-          <SelectItem key={v}>{v}</SelectItem>
-        ))}
-      </Select>
-      <MyCalendar
-        dimensionality={dimensionality}
-        value={start}
-        setValue={setStart}
-      />
-      <MyCalendar
-        dimensionality={dimensionality}
-        value={end}
-        setValue={setEnd}
+        className="min-w-32"
+        onChange={setDimensionlity}
+        defaultValue={EDimensionality.MONTHLY}
+        options={dimensionalityList.map((v) => ({ value: v, label: v }))}
       />
     </div>
   );

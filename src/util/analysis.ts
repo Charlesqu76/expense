@@ -1,5 +1,7 @@
 import { EDimensionality, SummaryItem } from "@/type/summary";
-import { getLocalTimeZone, parseAbsolute } from "@internationalized/date";
+import weekofyear from "dayjs/plugin/dayOfYear";
+import dayjs, { Dayjs } from "dayjs";
+dayjs.extend(weekofyear);
 
 export const getSumByCategory = (data: SummaryItem[]) => {
   const ag = data.reduce((acc, cur) => {
@@ -15,35 +17,48 @@ export const getSumByCategory = (data: SummaryItem[]) => {
   return Object.keys(ag).map((v) => ({ name: v, value: ag[v] }));
 };
 
+export const getDayFormat = (
+  date: Dayjs,
+  dimensionality: EDimensionality
+): string => {
+  const d = dayjs(date);
+  const year = d.year();
+  const month = d.month();
+  const day = d.day();
+  // @ts-ignore
+  const week = d.week();
+  let s = `${year}-${month}-${day}`;
+  switch (dimensionality) {
+    case EDimensionality.DAILY:
+      s = `${year}-${month}-${day}`;
+      break;
+    case EDimensionality.WEEKLY:
+      s = `${year}-${week}th`;
+      break;
+    case EDimensionality.MONTHLY:
+      s = `${year}-${month}`;
+      break;
+    case EDimensionality.YEARLY:
+      s = `${year}`;
+      break;
+    default:
+  }
+  return s;
+};
+
 export const getDataByDate = (
   data: SummaryItem[],
   dimensionality: EDimensionality
 ) => {
   const ag = data.reduce((acc, cur) => {
     const { create_time, amount } = cur;
-    const d = parseAbsolute(create_time, getLocalTimeZone());
-    const year = d.year;
-    const month = d.month;
-    const date = d.day;
-    let s = "";
-    switch (dimensionality) {
-      case EDimensionality.DAILY:
-        s = `${year}-${month}-${date}`;
-        break;
-      case EDimensionality.MONTHLY:
-        s = `${year}-${month}`;
-      case EDimensionality.YEARLY:
-        s = `${year}`;
-      default:
-        s = `${year}-${month}-${date}`;
-    }
-
-    if (acc[s]) {
-      acc[s] += amount;
+    // @ts-ignore
+    const format = getDayFormat(dayjs(create_time), dimensionality);
+    if (acc[format]) {
+      acc[format] += amount;
     } else {
-      acc[s] = amount;
+      acc[format] = amount;
     }
-
     return acc;
   }, {} as Record<string, number>);
 

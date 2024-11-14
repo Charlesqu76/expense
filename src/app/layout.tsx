@@ -1,7 +1,7 @@
-import { NextUIProvider } from "@nextui-org/system";
 import Header from "@/components/Header";
-import "./globals.css";
 import { Viewport } from "next";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import "./globals.css";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -19,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <NextUIProvider>
-          <Header />
-          {children}
-        </NextUIProvider>
+        <Header />
+        <AntdRegistry>{children}</AntdRegistry>
       </body>
     </html>
   );

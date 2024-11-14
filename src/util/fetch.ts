@@ -24,6 +24,8 @@ export const HOST =
     ? "https://charlescrazy.fun/"
     : "http://127.0.0.1:3000/";
 
+// export const HOST = "/";
+
 const prefix = "api/";
 
 export const MY_PATH = HOST + prefix;
@@ -49,8 +51,6 @@ const fetchUtility = async <T>(
   const fetchOptions: RequestInit = {
     method: method,
     headers: { ...defaultHeaders, ...options.headers },
-    mode: "cors",
-    credentials: "include",
     cache: "no-cache",
   };
 
