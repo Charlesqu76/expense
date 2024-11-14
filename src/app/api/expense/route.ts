@@ -7,7 +7,7 @@ export const GET = async () => {
   const data = await sql`
   SELECT * 
   FROM expense
-  ORDER BY create_time
+  ORDER BY create_time DESC
   `;
   return Response.json({
     data,

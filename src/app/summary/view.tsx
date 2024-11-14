@@ -3,7 +3,8 @@
 import Line from "@/components/summary/Line";
 import Pie from "@/components/summary/Pie";
 import S from "@/components/summary/S";
-import { EDimensionality, SummaryItem } from "@/type/summary";
+import { useSummaryStore } from "@/store/summary";
+import { SummaryItem } from "@/type/summary";
 import { getDataByDate } from "@/util/analysis";
 
 interface IProps {
@@ -11,7 +12,8 @@ interface IProps {
 }
 
 const View = ({ data }: IProps) => {
-  const { label, value } = getDataByDate(data, EDimensionality.DAILY);
+  const { dimensionality } = useSummaryStore((store) => store);
+  const { label, value } = getDataByDate(data, dimensionality);
   return (
     <div>
       <S />

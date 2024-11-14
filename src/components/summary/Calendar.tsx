@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Calendar,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@nextui-org/react";
-import { CalendarDate } from "@internationalized/date";
+"use client";
+import React from "react";
 import { EDimensionality } from "@/type/summary";
+import { DatePicker } from "antd";
+import { Dayjs } from "dayjs";
 
 interface IProps {
   dimensionality: EDimensionality;
-  value: CalendarDate;
+  value: Dayjs;
   setValue: Function;
 }
 
@@ -20,9 +15,7 @@ export default function MyCalendar({
   value,
   setValue,
 }: IProps) {
-  const [open, setOpen] = useState(false);
-
-  const formatDate = (date: CalendarDate) => {
+  const formatDate = (date: Dayjs) => {
     const months = [
       "Jan",
       "Feb",
@@ -37,9 +30,9 @@ export default function MyCalendar({
       "Nov",
       "Dec",
     ];
-    const month = months[date.month];
-    const day = date.day;
-    const year = date.year;
+    const month = months[date.month()];
+    const day = date.day();
+    const year = date.year();
 
     switch (dimensionality) {
       case EDimensionality.DAILY:
@@ -55,29 +48,16 @@ export default function MyCalendar({
     }
   };
 
-  const changeCalendar = (date: CalendarDate) => {
+  const changeCalendar = (date: Dayjs) => {
     setValue(date);
-    setOpen(false);
   };
 
   return (
-    <Popover isOpen={open} onOpenChange={setOpen} placement="bottom">
-      <PopoverTrigger>
-        <Button
-          variant="bordered"
-          className="justify-start text-left font-normal"
-        >
-          {formatDate(value)}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent>
-        <Calendar
-          showMonthAndYearPickers
-          aria-label="Date (Presets)"
-          value={value}
-          onChange={changeCalendar}
-        />
-      </PopoverContent>
-    </Popover>
+    <DatePicker
+      aria-label="Date (Presets)"
+      value={value}
+      picker={dimensionality as any}
+      onChange={changeCalendar}
+    />
   );
 }

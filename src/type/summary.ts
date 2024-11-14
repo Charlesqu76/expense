@@ -1,8 +1,8 @@
 export enum EDimensionality {
-  DAILY = "DAILY",
-  WEEKLY = "WEEKLY",
-  MONTHLY = "MONTHLY",
-  YEARLY = "YEARLY",
+  DAILY = "day",
+  WEEKLY = "week",
+  MONTHLY = "month",
+  YEARLY = "year",
 }
 
 export type SummaryItem = {

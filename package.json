@@ -9,15 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/nextjs-registry": "^1.0.1",
     "@internationalized/date": "^3.5.6",
     "@neondatabase/serverless": "^0.10.3",
     "@nextui-org/modal": "^2.0.41",
     "@nextui-org/react": "^2.4.8",
     "@nextui-org/system": "^2.2.6",
     "@nextui-org/theme": "^2.2.11",
+    "antd": "^5.22.1",
     "dayjs": "^1.11.13",
     "echarts-for-react": "^3.0.2",
-    "framer-motion": "^11.5.6",
+    "framer-motion": "^11.11.13",
     "next": "^15.0.3",
     "nextjs": "^0.0.3",
     "qs": "^6.13.0",

@@ -27,7 +27,7 @@ const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
         <div className="flex flex-col items-start">
           <span className="font-medium text-gray-900">{name}</span>
           <span className="text-sm text-gray-500">
-            {dayjs(create_time).format("YYYY-MM-DD hh:mm:ss")}
+            {dayjs(create_time).format("YYYY-MM-DD HH:mm:ss")}
           </span>
         </div>
       </div>
