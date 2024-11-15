@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { GetServerSidePropsContext } from "next";
 
 type HttpMethod = "GET" | "POST" | "PUT";
@@ -19,12 +20,12 @@ const buildQueryParams = (params: Record<string, string>): string => {
   return queryString ? `?${queryString}` : "";
 };
 
-export const HOST =
-  process.env.NODE_ENV === "production"
-    ? "https://charlescrazy.fun/"
-    : "http://127.0.0.1:3000/";
+// export const HOST =
+//   process.env.NODE_ENV === "production"
+//     ? "https://charlescrazy.fun/"
+//     : "http://127.0.0.1:3000/";
 
-// export const HOST = "/";
+export const HOST = process.env.IS_SERVER ? "http://127.0.0.1:3000/" : "/";
 
 const prefix = "api/";
 
@@ -67,6 +68,9 @@ const fetchUtility = async <T>(
     if (!response.ok) {
       const errMsg = `${url} --->  ${response.status} ${response.statusText}`;
       console.error(errMsg);
+      if (typeof window) {
+        message.error("something wrong happened");
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 

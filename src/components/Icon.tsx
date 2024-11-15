@@ -29,8 +29,6 @@ import {
 import { FaHome } from "react-icons/fa";
 import { BiDumbbell } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/modal";
-import { Button } from "@nextui-org/react";
 import { ReactElement } from "react";
 
 export const icons = [
@@ -64,7 +62,8 @@ export const icons = [
 ];
 
 export const findIcon = (name: string): ReactElement | null => {
-  return icons.find((item) => item["name"] === name)?.icon || null;
+  const icon = icons.find((item) => item["name"] === name)?.icon || null;
+  return icon;
 };
 
 interface IProps {
@@ -72,38 +71,3 @@ interface IProps {
   setOpen: Function;
   onClick: (name: string) => void;
 }
-
-const IconModal = ({ open, setOpen, onClick }: IProps) => {
-  return (
-    <Modal
-      isOpen={open}
-      onClose={() => {
-        setOpen(false);
-      }}
-      isDismissable={false}
-    >
-      <ModalContent>
-        <ModalHeader>Icons</ModalHeader>
-        <ModalBody>
-          <div className="flex flex-wrap">
-            <IconContext.Provider value={{ size: "28" }}>
-              {icons.map(({ name, icon }) => {
-                return (
-                  <Button
-                    className="p-2 mr-3 mb-2"
-                    key={name}
-                    size="sm"
-                    onClick={() => onClick(name)}
-                  >
-                    {icon}
-                  </Button>
-                );
-              })}
-            </IconContext.Provider>
-          </div>
-        </ModalBody>
-      </ModalContent>
-    </Modal>
-  );
-};
-export default IconModal;

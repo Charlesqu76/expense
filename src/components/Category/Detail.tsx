@@ -1,39 +1,28 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Input,
-  Button,
-} from "@nextui-org/react";
+
 import { useState } from "react";
-import { findIcon } from "../Icon";
-import IconModal from "../Icon";
-import { FaAngleRight } from "react-icons/fa6";
-import { IconContext } from "react-icons";
+import { icons } from "../Icon";
 import { addCategory, editCategory } from "@/fetch/category";
 import { useCategoryStore } from "@/store/category";
+import { Button, Input, Modal, Select, Form } from "antd";
+const { Item } = Form;
 
 const Detail = () => {
   const { type, data, setData, open, setOpen, queryCategory } =
     useCategoryStore((store) => store);
   const [loading, setLoding] = useState(false);
-  const [iconOpen, setIconOPen] = useState(false);
 
   const isAdd = type === "ADD";
   const { name, icon } = data;
 
-  const clickIcon = (name: string) => {
-    setIconOPen(false);
-    setData({ ...data, icon: name });
-  };
   const clickAdd = async () => {
     setLoding(true);
     try {
       if (isAdd) {
+        // @ts-ignore
         await addCategory(data);
       } else {
+        // @ts-ignore
         await editCategory(data);
       }
       await queryCategory();
@@ -43,52 +32,47 @@ const Detail = () => {
     }
   };
 
-  const Icon = findIcon(icon);
   return (
-    <>
-      <Modal
-        isOpen={open}
-        placement={"center"}
-        onClose={() => setOpen(false)}
-        isDismissable={false}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Category
-              </ModalHeader>
-              <ModalBody>
-                <div className="flex items-center">
-                  <Input
-                    label="Name"
-                    required
-                    value={name}
-                    onChange={(e) => setData({ ...data, name: e.target.value })}
-                  />
-                </div>
-                <div className="flex items-center">
-                  <span className="mr-6">Icon</span>
-                  <div className="flex-1">
-                    <IconContext.Provider value={{ size: "22" }}>
-                      {Icon}
-                    </IconContext.Provider>
-                  </div>
-
-                  <Button onClick={() => setIconOPen(true)} size="sm">
-                    <FaAngleRight size={18} />
-                  </Button>
-                </div>
-                <Button onClick={clickAdd} isLoading={loading}>
-                  {type}
-                </Button>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-      <IconModal open={iconOpen} setOpen={setIconOPen} onClick={clickIcon} />
-    </>
+    <Modal
+      open={open}
+      onCancel={() => setOpen(false)}
+      title={"Category"}
+      maskClosable={false}
+      footer={() => (
+        <Button
+          onClick={clickAdd}
+          loading={loading}
+          type="primary"
+          htmlType="submit"
+        >
+          {type}
+        </Button>
+      )}
+    >
+      <Form onFinish={clickAdd} autoComplete="off" requiredMark={false}>
+        <Item className="" required label="name">
+          <Input
+            className="w-full"
+            placeholder="Input name"
+            required
+            value={name}
+            size="large"
+            onChange={(e) => setData({ ...data, name: e.target.value })}
+          />
+        </Item>
+        <Item className="" label="icon">
+          <Select
+            defaultValue={icon}
+            className="w-full"
+            size="large"
+            options={icons.map(({ name, icon }) => ({
+              label: icon,
+              value: name,
+            }))}
+          />
+        </Item>
+      </Form>
+    </Modal>
   );
 };
 

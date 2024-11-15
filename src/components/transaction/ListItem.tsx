@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import { TCategory } from "@/type/category";
 // import { findIcon } from "../Icon";
 import { IconContext } from "react-icons";
-import { Button } from "@nextui-org/react";
 
 interface IProps {
   data: TTransaction;
@@ -15,7 +14,7 @@ const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
   const { name, icon } = categoryMap[category_id];
   // const Icon = findIcon(icon);
   return (
-    <Button
+    <div
       className="w-full h-16  p-4 flex items-center justify-between rounded-lg bg-gray-50 cursor-pointer"
       onClick={() => clickEdit(data)}
     >
@@ -35,7 +34,7 @@ const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
         <div className="font-bold">{amount}</div>
         <FaAngleRight />
       </div>
-    </Button>
+    </div>
   );
 };
 
