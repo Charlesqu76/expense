@@ -4,6 +4,7 @@ import { createStore } from "zustand/vanilla";
 import { TCategory } from "@/type/category";
 import { Status } from "@/type";
 import { getCategory } from "@/fetch/category";
+import { icons } from "@/components/Icon";
 
 interface CategoryProps {
   open: boolean;
@@ -44,7 +45,7 @@ export const createCategoryStore = (initProps?: Partial<CategoryProps>) => {
         type: "ADD",
         data: {
           name: "",
-          icon: "",
+          icon: icons[0].name,
         },
       });
     },

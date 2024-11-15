@@ -1,35 +1,29 @@
 "use client";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  Input,
-  Button,
-  Textarea,
-  Select,
-  SelectItem,
-} from "@nextui-org/react";
 import { useState } from "react";
 import { addExpense, editExpense } from "@/fetch/expense";
 import { useExpenseStore } from "@/store/expense";
-import { IconContext } from "react-icons";
+import { Button, Input, Modal, Select, Form, DatePicker } from "antd";
 import { findIcon } from "../Icon";
+import dayjs from "dayjs";
+const Textarea = Input.TextArea;
+const { Item } = Form;
 
 const Detail = () => {
   const [loading, setLoding] = useState(false);
-  const { open, setOpen, categoryList, type, data, setData, getExpenses } =
+  const { open, setOpen, categoryList, type, data, getExpenses } =
     useExpenseStore((store) => store);
   const isAdd = type === "ADD";
   const { amount, category_id, description } = data;
 
-  const clickAdd = async () => {
+  const onFinish = async (values: any) => {
+    const { date, ...others } = values;
+    const create_time = date.toString();
     setLoding(true);
     try {
       if (isAdd) {
-        await addExpense(data);
+        await addExpense(others);
       } else {
-        await editExpense(data);
+        await editExpense({ create_time, ...others });
       }
       await getExpenses();
       setOpen(false);
@@ -39,86 +33,52 @@ const Detail = () => {
   };
 
   return (
-    <>
-      <Modal
-        isOpen={open}
-        placement={"center"}
-        onClose={() => setOpen(false)}
-        isDismissable={false}
+    <Modal
+      open={open}
+      onCancel={() => setOpen(false)}
+      title="Expense"
+      footer={null}
+      destroyOnClose
+    >
+      <Form
+        autoComplete="off"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        layout="horizontal"
+        labelAlign="right"
+        onFinish={onFinish}
+        initialValues={{ date: dayjs(), amount, category_id, description }}
       >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">Expense</ModalHeader>
-              <ModalBody>
-                {/* <div className="flex items-center">
-                  <span className="mr-2">Date</span>
-                  <DatePicker
-                    className="max-w-[284px]"
-                    value={date}
-                    showMonthAndYearPickers
-                    onChange={(e) => console.log(e.toString())}
-                    label={"1"}
-                  />
-                </div> */}
-                <div className="flex items-center">
-                  <Input
-                    label="Amount"
-                    type="number"
-                    required
-                    value={String(amount)}
-                    onChange={(e) =>
-                      setData({ ...data, amount: Number(e.target.value) })
-                    }
-                  />
-                </div>
-                <div className="flex items-center">
-                  <Select
-                    label="Category"
-                    defaultSelectedKeys={[String(category_id)]}
-                    required
-                    value={category_id}
-                    onChange={(e) => {
-                      setData({ ...data, category_id: Number(e.target.value) });
-                    }}
-                  >
-                    {categoryList.map(({ id, name, icon }) => {
-                      const Icon = findIcon(icon);
-                      return (
-                        <SelectItem key={id} value={id} textValue={name}>
-                          <div className="flex">
-                            <IconContext.Provider value={{ size: "22" }}>
-                              <div className="flex items-center mr-2">
-                                {Icon}
-                              </div>
-                            </IconContext.Provider>
-                            {name}
-                          </div>
-                        </SelectItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-                <div className="flex items-center">
-                  <Textarea
-                    label="Note"
-                    required
-                    value={description}
-                    onChange={(e) =>
-                      setData({ ...data, description: e.target.value })
-                    }
-                  />
-                </div>
-
-                <Button onClick={clickAdd} isLoading={loading}>
-                  {type}
-                </Button>
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </>
+        <Item label="amount" name="amount">
+          <Input type="number" />
+        </Item>
+        <Item label="category" name="category_id">
+          <Select
+            options={categoryList.map(({ id, name, icon }) => ({
+              label: name,
+              value: id,
+              icon: icon,
+            }))}
+            optionRender={({ data }) => (
+              <div className="flex items-center space-x-2">
+                {findIcon(data.icon)} <span>{data.label}</span>
+              </div>
+            )}
+          />
+        </Item>
+        <Item label="date" name={"date"}>
+          <DatePicker />
+        </Item>
+        <Item label="description" name="description">
+          <Textarea placeholder="description" rows={3} />
+        </Item>
+        <Item className="text-end">
+          <Button loading={loading} type="primary" htmlType="submit">
+            {type}
+          </Button>
+        </Item>
+      </Form>
+    </Modal>
   );
 };
 
