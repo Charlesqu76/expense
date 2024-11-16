@@ -25,7 +25,9 @@ const buildQueryParams = (params: Record<string, string>): string => {
 //     ? "https://charlescrazy.fun/"
 //     : "http://127.0.0.1:3000/";
 
-export const HOST = process.env.IS_SERVER ? "http://127.0.0.1:3000/" : "/";
+export const HOST = process.env.IS_SERVER
+  ? process.env.HOST || "http://127.0.0.1:3000/"
+  : "/";
 
 const prefix = "api/";
 
