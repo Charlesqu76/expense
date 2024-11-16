@@ -56,7 +56,7 @@ const Detail = () => {
         initialValues={{ date: dayjs(), amount, category_id, description }}
       >
         <Item label="amount" name="amount">
-          <Input type="number" />
+          <Input type="number" allowClear />
         </Item>
         <Item label="category" name="category_id">
           <Select
@@ -76,7 +76,7 @@ const Detail = () => {
           <DatePicker />
         </Item>
         <Item label="description" name="description">
-          <Textarea placeholder="description" rows={3} />
+          <Textarea placeholder="description" rows={3} allowClear />
         </Item>
         <Item className="text-end">
           <Button loading={loading} type="primary" htmlType="submit">

@@ -7,8 +7,10 @@ export const GET = async () => {
   const data = await sql`
   SELECT * 
   FROM expense
+  WHERE create_time >= NOW() - INTERVAL '30 days'
   ORDER BY create_time DESC
   `;
+
   return Response.json({
     data,
   });
