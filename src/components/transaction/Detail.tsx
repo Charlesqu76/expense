@@ -13,17 +13,26 @@ const Detail = () => {
   const { open, setOpen, categoryList, type, data, getExpenses } =
     useExpenseStore((store) => store);
   const isAdd = type === "ADD";
-  const { amount, category_id, description } = data;
+  const { amount, category_id, description, id } = data;
 
   const onFinish = async (values: any) => {
-    const { date, ...others } = values;
+    const { date, amount, ...others } = values;
     const create_time = date.toString();
     setLoding(true);
     try {
       if (isAdd) {
-        await addExpense(others);
+        await addExpense({
+          amount: Number(amount),
+          create_time,
+          ...others,
+        });
       } else {
-        await editExpense({ create_time, ...others });
+        await editExpense({
+          id,
+          amount: Number(amount),
+          create_time,
+          ...others,
+        });
       }
       await getExpenses();
       setOpen(false);
@@ -42,11 +51,8 @@ const Detail = () => {
     >
       <Form
         autoComplete="off"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        layout="horizontal"
-        labelAlign="right"
         onFinish={onFinish}
+        requiredMark={false}
         initialValues={{ date: dayjs(), amount, category_id, description }}
       >
         <Item label="amount" name="amount">

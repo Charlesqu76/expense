@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { TCategory } from "@/type/category";
 // import { findIcon } from "../Icon";
 import { IconContext } from "react-icons";
+import { DAY } from "@/const";
 
 interface IProps {
   data: TTransaction;
@@ -12,6 +13,7 @@ interface IProps {
 const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
   const { amount, create_time, description, category_id } = data;
   const { name, icon } = categoryMap[category_id];
+  const date = dayjs(create_time);
   // const Icon = findIcon(icon);
   return (
     <div
@@ -26,12 +28,12 @@ const ListItem = ({ data, categoryMap, clickEdit }: IProps) => {
         <div className="flex flex-col items-start">
           <span className="font-medium text-gray-900">{name}</span>
           <span className="text-sm text-gray-500">
-            {dayjs(create_time).format("YYYY-MM-DD HH:mm:ss")}
+            {DAY[date.day()]}, {date.format("YYYY-MM-DD")}
           </span>
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <div className="font-bold">{amount}</div>
+        <div className="font-bold">{amount.toFixed(2)}</div>
         <FaAngleRight />
       </div>
     </div>

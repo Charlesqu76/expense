@@ -1,5 +1,4 @@
 import { neon } from "@neondatabase/serverless";
-import { request } from "http";
 import { NextRequest } from "next/server";
 
 export const GET = async () => {
@@ -8,6 +7,7 @@ export const GET = async () => {
   const data = await sql`
   SELECT * 
   FROM category
+  ORDER BY create_time DESC
   `;
   return Response.json({
     data,

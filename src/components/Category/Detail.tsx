@@ -13,17 +13,17 @@ const Detail = () => {
   const [loading, setLoding] = useState(false);
 
   const isAdd = type === "ADD";
-  const { name, icon } = data;
+  const { id, name, icon } = data;
 
-  const clickAdd = async () => {
+  const onFinish = async (values: any) => {
     setLoding(true);
     try {
       if (isAdd) {
         // @ts-ignore
-        await addCategory(data);
+        await addCategory({ ...values });
       } else {
         // @ts-ignore
-        await editCategory(data);
+        await editCategory({ id, ...values });
       }
       await queryCategory();
       setOpen(false);
@@ -38,38 +38,31 @@ const Detail = () => {
       onCancel={() => setOpen(false)}
       title={"Category"}
       maskClosable={false}
-      footer={() => (
-        <Button
-          onClick={clickAdd}
-          loading={loading}
-          type="primary"
-          htmlType="submit"
-        >
-          {type}
-        </Button>
-      )}
+      footer={null}
+      destroyOnClose
     >
-      <Form onFinish={clickAdd} autoComplete="off" requiredMark={false}>
-        <Item className="" required label="name">
-          <Input
-            className="w-full"
-            placeholder="Input name"
-            required
-            value={name}
-            size="large"
-            onChange={(e) => setData({ ...data, name: e.target.value })}
-          />
+      <Form
+        onFinish={onFinish}
+        autoComplete="off"
+        requiredMark={false}
+        initialValues={{ name, icon }}
+      >
+        <Item className="" label="name" name="name">
+          <Input placeholder="Input name" size="large" />
         </Item>
-        <Item className="" label="icon">
+        <Item className="" label="icon" name="icon">
           <Select
-            defaultValue={icon}
-            className="w-full"
             size="large"
             options={icons.map(({ name, icon }) => ({
               label: icon,
               value: name,
             }))}
           />
+        </Item>
+        <Item className="text-end">
+          <Button loading={loading} type="primary" htmlType="submit">
+            {type}
+          </Button>
         </Item>
       </Form>
     </Modal>

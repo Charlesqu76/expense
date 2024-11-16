@@ -12,6 +12,8 @@ interface IProps {
 }
 
 const View = ({ data }: IProps) => {
+  console.log(data);
+
   const { dimensionality } = useSummaryStore((store) => store);
   const { label, value } = getDataByDate(data, dimensionality);
   return (
