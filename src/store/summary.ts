@@ -31,6 +31,7 @@ export const createSummaryStore = (initProps?: Partial<SummaryProps>) => {
       set({ dimensionality: payload });
     },
     setStart: (payload: Dayjs) => {
+      console.log(payload);
       set({ start: payload });
     },
     setEnd: (payload: Dayjs) => {

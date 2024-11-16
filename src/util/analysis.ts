@@ -24,7 +24,7 @@ export const getDayFormat = (
   const d = dayjs(date);
   const year = d.year();
   const month = d.month();
-  const day = d.day();
+  const day = d.date();
   // @ts-ignore
   const week = d.week();
   let s = `${year}-${month}-${day}`;
@@ -54,13 +54,12 @@ export const getDataByDate = (
     const { create_time, amount } = cur;
     // @ts-ignore
     const format = getDayFormat(dayjs(create_time), dimensionality);
-    if (acc[format]) {
-      acc[format] += amount;
-    } else {
-      acc[format] = amount;
-    }
+    acc.set(format, (acc.get(format) || 0) + amount);
     return acc;
-  }, {} as Record<string, number>);
+  }, new Map() as Map<string, number>);
 
-  return { label: Object.keys(ag), value: Object.values(ag) };
+  return {
+    label: Array.from(ag.keys()).reverse(),
+    value: Array.from(ag.values()).reverse(),
+  };
 };
