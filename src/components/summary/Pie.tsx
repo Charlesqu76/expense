@@ -1,9 +1,9 @@
-import { SummaryItem } from "@/type/summary";
+import { TTransaction } from "@/type/transaction";
 import { getSumByCategory } from "@/util/analysis";
 import ReactEChartsCode from "echarts-for-react";
 
 interface IProps {
-  data: SummaryItem[];
+  data: TTransaction[];
 }
 
 const Pie = ({ data }: IProps) => {

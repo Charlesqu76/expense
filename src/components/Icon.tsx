@@ -1,73 +1,55 @@
-import { FaPhoneVolume } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa6";
-import { MdElectricBolt } from "react-icons/md";
-import { FaGasPump } from "react-icons/fa";
-import { MdWaterDamage } from "react-icons/md";
-import { FaWifi } from "react-icons/fa";
-import { FaGift } from "react-icons/fa";
-import { FaTrainSubway } from "react-icons/fa6";
-import { FaCartShopping } from "react-icons/fa6";
-import { IoFastFood } from "react-icons/io5";
-import {
-  GiKnifeFork,
-  GiShoppingCart,
-  GiHamburger,
-  GiCoffeeCup,
-  GiFruitBowl,
-  GiGasStove,
-  GiClothes,
-  GiSmartphone,
-  GiMedicines,
-} from "react-icons/gi";
-import {
-  MdMovie,
-  MdFlight,
-  MdHotel,
-  MdSchool,
-  MdDirectionsBus,
-} from "react-icons/md";
-import { FaHome } from "react-icons/fa";
-import { BiDumbbell } from "react-icons/bi";
-import { IconContext } from "react-icons";
 import { ReactElement } from "react";
+import {
+  Backpack,
+  Clapperboard,
+  Coffee,
+  Cookie,
+  Droplet,
+  Dumbbell,
+  Fuel,
+  Gift,
+  Hospital,
+  Hotel,
+  House,
+  MonitorSmartphone,
+  Phone,
+  School,
+  Shirt,
+  ShoppingBasket,
+  ShoppingCart,
+  TrainFront,
+  Utensils,
+  Wifi,
+  Youtube,
+  Zap,
+} from "lucide-react";
 
 export const icons = [
-  { name: "Phone", icon: <FaPhoneVolume /> },
-  { name: "Video", icon: <FaYoutube /> },
-  { name: "Electric", icon: <MdElectricBolt /> },
-  { name: "Gas", icon: <FaGasPump /> },
-  { name: "Water", icon: <MdWaterDamage /> },
-  { name: "Wifi", icon: <FaWifi /> },
-  { name: "Gift", icon: <FaGift /> },
-  { name: "Train", icon: <FaTrainSubway /> },
-  { name: "Shopping", icon: <FaCartShopping /> },
-  { name: "Food", icon: <IoFastFood /> },
-  { name: "Dining", icon: <GiKnifeFork /> },
-  { name: "Groceries", icon: <GiShoppingCart /> },
-  { name: "Fast Food", icon: <GiHamburger /> },
-  { name: "Coffee/Drinks", icon: <GiCoffeeCup /> },
-  { name: "Home Cooking", icon: <GiFruitBowl /> },
-  { name: "Utilities", icon: <GiGasStove /> },
-  { name: "Clothing", icon: <GiClothes /> },
-  { name: "Electronics", icon: <GiSmartphone /> },
-  { name: "Healthcare", icon: <GiMedicines /> },
-  { name: "Entertainment", icon: <MdMovie /> },
-  { name: "Travel", icon: <MdFlight /> },
-  { name: "Accommodation", icon: <MdHotel /> },
-  { name: "Education", icon: <MdSchool /> },
-  { name: "Public Transit", icon: <MdDirectionsBus /> },
-  { name: "Housing", icon: <FaHome /> },
-  { name: "Gifts", icon: <FaGift /> },
-  { name: "Fitness", icon: <BiDumbbell /> },
+  { name: "Phone", icon: <Phone /> },
+  { name: "Video", icon: <Youtube /> },
+  { name: "Electric", icon: <Zap /> },
+  { name: "Gas", icon: <Fuel /> },
+  { name: "Water", icon: <Droplet /> },
+  { name: "Wifi", icon: <Wifi /> },
+  { name: "Train", icon: <TrainFront /> },
+  { name: "Shopping", icon: <ShoppingCart /> },
+  { name: "Food", icon: <Cookie /> },
+  { name: "Dining", icon: <Utensils /> },
+  { name: "Coffee/Drinks", icon: <Coffee /> },
+  { name: "Utilities", icon: <ShoppingBasket /> },
+  { name: "Clothing", icon: <Shirt /> },
+  { name: "Electronics", icon: <MonitorSmartphone /> },
+  { name: "Healthcare", icon: <Hospital /> },
+  { name: "Entertainment", icon: <Clapperboard /> },
+  { name: "Travel", icon: <Backpack /> },
+  { name: "Accommodation", icon: <Hotel /> },
+  { name: "Education", icon: <School /> },
+  { name: "Housing", icon: <House /> },
+  { name: "Gifts", icon: <Gift /> },
+  { name: "Fitness", icon: <Dumbbell /> },
 ];
 
 export const findIcon = (name: string): ReactElement | null => {
   const icon = icons.find((item) => item["name"] === name)?.icon || null;
   return icon;
 };
-
-interface IProps {
-  open: boolean;
-  setOpen: Function;
-  onClick: (name: string) => void;
-}

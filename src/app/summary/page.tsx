@@ -3,10 +3,10 @@ import View from "./view";
 import SummaryProvider from "./Provider";
 
 const Summary = async () => {
-  const { data } = await getSummary();
+  const { data } = await getSummary({});
   return (
-    <SummaryProvider>
-      <View data={data || []} />
+    <SummaryProvider data={data || []}>
+      <View />
     </SummaryProvider>
   );
 };

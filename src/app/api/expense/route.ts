@@ -5,10 +5,11 @@ export const GET = async () => {
   // @ts-ignore
   const sql = neon(process.env.DATABASE_URL);
   const data = await sql`
-  SELECT * 
-  FROM expense
-  WHERE create_time >= NOW() - INTERVAL '30 days'
-  ORDER BY create_time DESC
+  SELECT e.create_time, e.amount, e.description, e.id, c.name, c.icon, c.id AS category_id
+  FROM expense AS e
+   JOIN category AS c ON (e.category_id = c.id)
+  WHERE e.create_time >= NOW() - INTERVAL '30 days'
+  ORDER BY e.create_time DESC
   `;
 
   return Response.json({

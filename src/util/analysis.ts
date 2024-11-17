@@ -1,9 +1,9 @@
-import { EDimensionality, SummaryItem } from "@/type/summary";
+import { EDimensionality, TTransaction } from "@/type/summary";
 import weekofyear from "dayjs/plugin/dayOfYear";
 import dayjs, { Dayjs } from "dayjs";
 dayjs.extend(weekofyear);
 
-export const getSumByCategory = (data: SummaryItem[]) => {
+export const getSumByCategory = (data: TTransaction[]) => {
   const ag = data.reduce((acc, cur) => {
     const { name, amount } = cur;
     if (acc[name]) {
@@ -47,7 +47,7 @@ export const getDayFormat = (
 };
 
 export const getDataByDate = (
-  data: SummaryItem[],
+  data: TTransaction[],
   dimensionality: EDimensionality
 ) => {
   const ag = data.reduce((acc, cur) => {

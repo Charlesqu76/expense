@@ -20,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Header />
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <div className="px-2 pb-4">{children}</div>
+        </AntdRegistry>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import MyCalendar from "./Calendar";
 import { EDimensionality } from "@/type/summary";
-import { Select } from "antd";
+import { Button, Select } from "antd";
 import { useSummaryStore } from "@/store/summary";
 
 export const dimensionalityList = [
@@ -10,25 +10,36 @@ export const dimensionalityList = [
   EDimensionality.YEARLY,
 ];
 
-const S = () => {
-  const { start, end, setEnd, setStart, dimensionality, setDimensionlity } =
-    useSummaryStore((store) => store);
+const Operation = () => {
+  const {
+    start,
+    end,
+    setEnd,
+    setStart,
+    dimensionality,
+    setDimensionlity,
+    queryData,
+  } = useSummaryStore((store) => store);
 
   return (
-    <div className="p-4">
+    <div className="py-2">
       <div className="flex mb-2 space-x-2">
         <MyCalendar
           dimensionality={dimensionality}
           value={start}
           setValue={setStart}
+          disabled={(current) => current > end}
         />
         <MyCalendar
           dimensionality={dimensionality}
           value={end}
           setValue={setEnd}
+          disabled={(current) => current < start}
         />
+        <Button onClick={queryData} type="primary">
+          Search
+        </Button>
       </div>
-
       <Select
         value={dimensionality}
         className="min-w-32"
@@ -40,4 +51,4 @@ const S = () => {
   );
 };
 
-export default S;
+export default Operation;

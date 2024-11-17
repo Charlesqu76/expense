@@ -3,8 +3,11 @@ import { createContext, useContext } from "react";
 import { createStore } from "zustand/vanilla";
 import { EDimensionality } from "@/type/summary";
 import dayjs, { Dayjs } from "dayjs";
+import { getSummary } from "@/fetch/summary";
+import { TTransaction } from "@/type/transaction";
 
 interface SummaryProps {
+  data: TTransaction[];
   dimensionality: EDimensionality;
   start: Dayjs;
   end: Dayjs;
@@ -14,28 +17,48 @@ interface SummaryState extends SummaryProps {
   setDimensionlity: (payload: EDimensionality) => void;
   setStart: (payload: Dayjs) => void;
   setEnd: (payload: Dayjs) => void;
+  setData: (payload: TTransaction[]) => void;
+  queryData: () => void;
 }
 
 export type Summarystore = ReturnType<typeof createSummaryStore>;
 
 export const createSummaryStore = (initProps?: Partial<SummaryProps>) => {
   const DEFAULT_PROPS: SummaryProps = {
-    start: dayjs(),
-    end: dayjs(),
+    data: [],
+    start: dayjs().startOf("month"),
+    end: dayjs().endOf(EDimensionality.DAILY),
     dimensionality: EDimensionality.DAILY,
   };
-  return createStore<SummaryState>()((set) => ({
+  return createStore<SummaryState>()((set, get) => ({
     ...DEFAULT_PROPS,
     ...initProps,
     setDimensionlity: (payload: EDimensionality) => {
-      set({ dimensionality: payload });
+      const { start, end } = get();
+      set({
+        dimensionality: payload,
+        start: start.startOf(payload),
+        end: end.endOf(payload),
+      });
     },
     setStart: (payload: Dayjs) => {
-      console.log(payload);
-      set({ start: payload });
+      const { dimensionality } = get();
+      set({ start: payload.startOf(dimensionality) });
     },
     setEnd: (payload: Dayjs) => {
-      set({ end: payload });
+      const { dimensionality } = get();
+      set({ end: payload.endOf(dimensionality) });
+    },
+    setData: (payload: TTransaction[]) => {
+      set({ data: payload });
+    },
+    queryData: async () => {
+      const { start, end, setData } = get();
+      const { data } = await getSummary({
+        start: start.toISOString(),
+        end: end.toISOString(),
+      });
+      setData(data || []);
     },
   }));
 };

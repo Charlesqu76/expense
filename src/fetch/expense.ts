@@ -1,3 +1,4 @@
+import { AddExpense, TTransaction } from "@/type/transaction";
 import { myFetch } from "@/util/fetch";
 
 export const getExpense = () => {

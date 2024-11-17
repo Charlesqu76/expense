@@ -4,6 +4,7 @@ import { createStore } from "zustand/vanilla";
 import { TCategory } from "@/type/category";
 import { getExpense } from "@/fetch/expense";
 import { Status } from "@/type";
+import { TTransaction } from "@/type/transaction";
 
 interface ExpenseProps {
   open: boolean;

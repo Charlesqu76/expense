@@ -1,25 +1,23 @@
 "use client";
 
-import Line from "@/components/summary/Line";
-import Pie from "@/components/summary/Pie";
-import S from "@/components/summary/S";
+import Operation from "@/components/summary/Operation";
 import { useSummaryStore } from "@/store/summary";
-import { SummaryItem } from "@/type/summary";
-import { getDataByDate } from "@/util/analysis";
+import ListItem from "@/components/transaction/ListItem";
+import dynamic from "next/dynamic";
+const Line = dynamic(() => import("@/components/summary/Line"), { ssr: false });
+const Pie = dynamic(() => import("@/components/summary/Pie"), { ssr: false });
 
-interface IProps {
-  data: SummaryItem[];
-}
-
-const View = ({ data }: IProps) => {
-  console.log(data);
-
-  const { dimensionality } = useSummaryStore((store) => store);
-  const { label, value } = getDataByDate(data, dimensionality);
+const View = () => {
+  const { dimensionality, data } = useSummaryStore((store) => store);
   return (
     <div>
-      <S />
-      <Line label={label} value={value} />
+      <Operation />
+      <div className="space-y-2">
+        {data.map((v) => (
+          <ListItem key={v["id"]} data={v} />
+        ))}
+      </div>
+      <Line data={data} dimensionality={dimensionality} />
       <Pie data={data} />
     </div>
   );
