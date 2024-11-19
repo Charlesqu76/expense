@@ -1,3 +1,5 @@
+"use client";
+
 import MyCalendar from "./Calendar";
 import { EDimensionality } from "@/type/summary";
 import { Button, Select } from "antd";

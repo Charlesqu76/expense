@@ -1,6 +1,7 @@
-import { EDimensionality, TTransaction } from "@/type/summary";
+import { EDimensionality } from "@/type/summary";
 import weekofyear from "dayjs/plugin/dayOfYear";
 import dayjs, { Dayjs } from "dayjs";
+import { TTransaction } from "@/type/transaction";
 dayjs.extend(weekofyear);
 
 export const getSumByCategory = (data: TTransaction[]) => {
@@ -62,4 +63,19 @@ export const getDataByDate = (
     label: Array.from(ag.keys()).reverse(),
     value: Array.from(ag.values()).reverse(),
   };
+};
+
+export const getDataByCategory = (data: TTransaction[]) => {
+  const ag = (data || []).reduce((acc, cur) => {
+    const { name, amount } = cur;
+    if (acc[name]) {
+      const now = acc[name];
+      now.amount += amount;
+      now.items.push(cur);
+    } else {
+      acc[name] = { amount: amount, items: [cur] };
+    }
+    return acc;
+  }, {} as Record<string, { amount: number; items: TTransaction[] }>);
+  return ag;
 };
