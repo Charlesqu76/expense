@@ -1,8 +1,6 @@
 import { EDimensionality } from "@/type/summary";
-import weekofyear from "dayjs/plugin/dayOfYear";
 import dayjs, { Dayjs } from "dayjs";
 import { TTransaction } from "@/type/transaction";
-dayjs.extend(weekofyear);
 
 export const getSumByCategory = (data: TTransaction[]) => {
   const ag = data.reduce((acc, cur) => {

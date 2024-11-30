@@ -1,56 +1,31 @@
 "use client";
-import React, { useState } from "react";
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@nextui-org/react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
+import Link from "next/link";
 import { capitalize } from "@/util";
+import clsx from "clsx";
 
-const menuItems = ["EXPENSE", "CATEGORY", "SUMMARY"];
+const menuItems = ["expense", "category", "summary"];
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const path = usePathname().split("/")[1];
   return (
-    <Navbar
-      className="bg-slate-200 mb-2"
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
-      isBordered
-    >
-      <NavbarContent>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
-        <NavbarBrand className="flex justify-end">
-          <p className="font-bold text-inherit">
-            {capitalize(usePathname().split("/").join(""))}
-          </p>
-        </NavbarBrand>
-      </NavbarContent>
-
-      <NavbarMenu>
+    <header className="h-16 flex items-center px-2">
+      <ul className="flex space-x-2">
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+          <li key={index} className="">
             <Link
-              className="w-full"
-              href={item.toLocaleLowerCase()}
-              onClick={() => {
-                setIsMenuOpen(false);
-              }}
+              className={clsx(
+                path === item && "border-b pb-1 border-b-cyan-700"
+              )}
+              href={item}
             >
-              {item}
+              {capitalize(item)}
             </Link>
-          </NavbarMenuItem>
+          </li>
         ))}
-      </NavbarMenu>
-    </Navbar>
+      </ul>
+    </header>
   );
 };
 

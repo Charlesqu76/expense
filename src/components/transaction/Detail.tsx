@@ -53,6 +53,7 @@ const Detail = () => {
         autoComplete="off"
         onFinish={onFinish}
         requiredMark={false}
+        labelCol={{ span: 4 }}
         initialValues={{ date: dayjs(), amount, category_id, description }}
       >
         <Item label="amount" name="amount">

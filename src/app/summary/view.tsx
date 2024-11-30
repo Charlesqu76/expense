@@ -6,6 +6,9 @@ import dynamic from "next/dynamic";
 import Data from "@/components/summary/Data";
 const Line = dynamic(() => import("@/components/summary/Line"), { ssr: false });
 const Pie = dynamic(() => import("@/components/summary/Pie"), { ssr: false });
+import weekofyear from "dayjs/plugin/dayOfYear";
+import dayjs from "dayjs";
+dayjs.extend(weekofyear);
 
 const View = () => {
   const { dimensionality, data } = useSummaryStore((store) => store);

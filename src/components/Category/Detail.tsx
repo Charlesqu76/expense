@@ -45,6 +45,7 @@ const Detail = () => {
         onFinish={onFinish}
         autoComplete="off"
         requiredMark={false}
+        labelCol={{ span: 4 }}
         initialValues={{ name, icon }}
       >
         <Item className="" label="name" name="name">
