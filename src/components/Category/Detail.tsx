@@ -4,9 +4,8 @@ import { useState } from "react";
 import { icons } from "../Icon";
 import { addCategory, editCategory } from "@/fetch/category";
 import { useCategoryStore } from "@/store/category";
-import { Button, Input, Modal, Select, Form } from "antd";
+import { Button, Form, Input, Modal, Select } from "antd";
 const { Item } = Form;
-
 const Detail = () => {
   const { type, data, setData, open, setOpen, queryCategory } =
     useCategoryStore((store) => store);
@@ -19,10 +18,8 @@ const Detail = () => {
     setLoding(true);
     try {
       if (isAdd) {
-        // @ts-ignore
         await addCategory({ ...values });
       } else {
-        // @ts-ignore
         await editCategory({ id, ...values });
       }
       await queryCategory();
@@ -35,11 +32,10 @@ const Detail = () => {
   return (
     <Modal
       open={open}
-      onCancel={() => setOpen(false)}
-      title={"Category"}
-      maskClosable={false}
       footer={null}
-      destroyOnClose
+      title={"Category"}
+      onCancel={() => setOpen(false)}
+      maskClosable={false}
     >
       <Form
         onFinish={onFinish}
@@ -49,22 +45,25 @@ const Detail = () => {
         initialValues={{ name, icon }}
       >
         <Item className="" label="name" name="name">
-          <Input placeholder="Input name" size="large" />
+          <Input placeholder="Input name" />
         </Item>
         <Item className="" label="icon" name="icon">
           <Select
-            size="large"
-            options={icons.map(({ name, icon }) => ({
-              label: icon,
-              value: name,
-            }))}
-          />
+            value={data.icon}
+            onChange={(value) => {
+              setData({ ...data, icon: value });
+            }}
+          >
+            {icons.map(({ name, icon }, i) => (
+              <Select.Option key={name + i} value={name}>
+                {icon}
+              </Select.Option>
+            ))}
+          </Select>
         </Item>
-        <Item className="text-end">
-          <Button loading={loading} type="primary" htmlType="submit">
-            {type}
-          </Button>
-        </Item>
+        <Button htmlType="submit" loading={loading}>
+          Submit
+        </Button>
       </Form>
     </Modal>
   );

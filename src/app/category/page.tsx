@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const Page = async () => {
   const { data } = await getCategory();
   return (
-    <main className="max-w-md mx-auto p-2 ">
+    <main className="mx-auto p-2 ">
       <Provider categoryList={data || []}>
         <View />
       </Provider>

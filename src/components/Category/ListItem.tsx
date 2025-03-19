@@ -1,5 +1,4 @@
 import { TCategory } from "@/type/category";
-import { motion } from "motion/react";
 import { findIcon } from "../Icon";
 interface IProps {
   data: TCategory;
@@ -10,17 +9,15 @@ const Item = ({ data, clickEdit }: IProps) => {
   const { name, icon } = data;
   const Icon = findIcon(icon);
   return (
-    <motion.div
-      className="w-full h-12 mb-2 flex items-center justify-between p-4 rounded-lg bg-gray-50"
+    <div
+      className="mb-2 flex flex-col items-center space-y-2 p-4 rounded-lg bg-gray-50 shadow-md cursor-pointer"
       onClick={() => {
         clickEdit(data);
       }}
     >
-      <div className="flex items-center">
-        <div>{Icon}</div>
-        <div className="ml-4">{name}</div>
-      </div>
-    </motion.div>
+      {Icon}
+      <span className="font-bold">{name}</span>
+    </div>
   );
 };
 

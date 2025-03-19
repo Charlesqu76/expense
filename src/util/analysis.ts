@@ -51,7 +51,6 @@ export const getDataByDate = (
 ) => {
   const ag = data.reduce((acc, cur) => {
     const { create_time, amount } = cur;
-    // @ts-ignore
     const format = getDayFormat(dayjs(create_time), dimensionality);
     acc.set(format, (acc.get(format) || 0) + amount);
     return acc;

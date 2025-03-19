@@ -15,9 +15,13 @@ const View = () => {
   return (
     <div>
       <Operation />
-      <Data data={data} />
-      <Line data={data} dimensionality={dimensionality} />
-      <Pie data={data} />
+      <div className="grid sm:grid-cols-2 gap-4">
+        <Data data={data} />
+        <div>
+          <Line data={data} dimensionality={dimensionality} />
+          <Pie data={data} />
+        </div>
+      </div>
     </div>
   );
 };

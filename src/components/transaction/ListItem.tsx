@@ -22,7 +22,7 @@ const ListItem = ({ data, clickEdit }: IProps) => {
     "border-b-1": description,
   });
   return (
-    <div className="bg-gray-50 px-4 py-2">
+    <div className="bg-gray-50 px-4 py-2 shadow-md">
       <div className={cls} onClick={() => clickEdit?.(data)}>
         <div className="flex">
           <div className="flex items-center mr-2">{Icon}</div>

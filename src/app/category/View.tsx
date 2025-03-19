@@ -19,9 +19,9 @@ const View = () => {
       <Button className="mb-2" onClick={clickAdd} type="primary">
         Add Category
       </Button>
-      <div>
-        {categoryList?.map((item) => (
-          <Item key={item.name} data={item} clickEdit={clickEdit} />
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {categoryList?.map((item, index) => (
+          <Item key={item.name + index} data={item} clickEdit={clickEdit} />
         ))}
       </div>
       <Detail />

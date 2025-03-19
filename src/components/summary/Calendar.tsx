@@ -19,7 +19,6 @@ export default function MyCalendar({
 }: IProps) {
   return (
     <DatePicker
-      aria-label="Date (Presets)"
       value={value}
       picker={dimensionality as any}
       onChange={setValue as any}

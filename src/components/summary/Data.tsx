@@ -10,31 +10,21 @@ interface IProps {
 const Data = ({ data }: IProps) => {
   const processedData = Object.entries(getDataByCategory(data));
   return (
-    <Collapse
-      items={[
-        {
-          key: "data",
-          label: "Data",
-          children: (
-            <div className="space-y-2">
-              {processedData.map(([key, { amount, items }]) => (
-                <div key={key}>
-                  <div className="flex items-center justify-between text-base font-bold mb-2 px-2">
-                    <span>{key}</span>
-                    <span>{amount.toFixed(2)}</span>
-                  </div>
-                  <div className="space-y-1">
-                    {items.map((item) => (
-                      <ListItem key={item["id"]} data={item} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ),
-        },
-      ]}
-    />
+    <div className="p-2 shadow-lg rounded-md bg-white">
+      {processedData.map(([key, { amount, items }]) => (
+        <div key={key}>
+          <div className="flex items-center justify-between text-base font-bold mb-4 py-2 border-b">
+            <span>{key}</span>
+            <span>{amount.toFixed(2)}</span>
+          </div>
+          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+            {items.map((item) => (
+              <ListItem key={item["id"]} data={item} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
