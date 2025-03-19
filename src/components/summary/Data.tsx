@@ -10,7 +10,7 @@ interface IProps {
 const Data = ({ data }: IProps) => {
   const processedData = Object.entries(getDataByCategory(data));
   return (
-    <div className="p-2 shadow-lg rounded-md bg-white">
+    <div className="p-2 shadow-lg rounded-md bg-white overflow-scroll">
       {processedData.map(([key, { amount, items }]) => (
         <div key={key}>
           <div className="flex items-center justify-between text-base font-bold mb-4 py-2 border-b">

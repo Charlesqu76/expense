@@ -13,11 +13,11 @@ dayjs.extend(weekofyear);
 const View = () => {
   const { dimensionality, data } = useSummaryStore((store) => store);
   return (
-    <div>
+    <div className="flex-1 flex flex-col p-4">
       <Operation />
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="flex-1 grid sm:grid-cols-2 gap-4  pb-2">
         <Data data={data} />
-        <div>
+        <div className="grid grid-rows-2 gap-4">
           <Line data={data} dimensionality={dimensionality} />
           <Pie data={data} />
         </div>
