@@ -5,7 +5,7 @@ import Link from "next/link";
 import { capitalize } from "@/util";
 import clsx from "clsx";
 
-const menuItems = ["expense", "category", "summary"];
+const menuItems = ["expense", "category", "daily", "summary"];
 
 const Header = () => {
   const path = usePathname().split("/")[1];

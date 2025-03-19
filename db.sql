@@ -18,3 +18,9 @@ CREATE TABLE
         WITH
             TIME ZONE DEFAULT NOW ()
     );
+
+CREATE TABLE
+    daily (
+        id SERIAL PRIMARY KEY,
+        expense_id INT NOT NULL REFERENCES expense (id),
+    )

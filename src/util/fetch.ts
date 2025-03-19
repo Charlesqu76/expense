@@ -1,7 +1,7 @@
 import { message } from "antd";
 import { GetServerSidePropsContext } from "next";
 
-type HttpMethod = "GET" | "POST" | "PUT";
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 interface FetchOptions {
   method: HttpMethod;
@@ -65,6 +65,10 @@ const fetchUtility = async <T>(
     fetchOptions.body = JSON.stringify(body);
   }
 
+  if (method === "DELETE" && body) {
+    fetchOptions.body = JSON.stringify(body);
+  }
+
   try {
     const response = await fetch(url, fetchOptions);
     if (!response.ok) {
@@ -111,4 +115,17 @@ export const myput = async <T>(
   return fetchUtility<T>(path, { method: "PUT", body, headers });
 };
 
-export const myFetch = { get: myget, post: mypost, put: myput };
+export const mydelete = async <T>(
+  path: string,
+  body?: Object,
+  headers?: Record<string, string>
+): Promise<FetchResult<T>> => {
+  return fetchUtility<T>(path, { method: "DELETE", body, headers });
+};
+
+export const myFetch = {
+  get: myget,
+  post: mypost,
+  put: myput,
+  delete: mydelete,
+};

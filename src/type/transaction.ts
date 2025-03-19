@@ -14,3 +14,5 @@ export type AddExpense = {
   // date: string;
   category_id: number;
 };
+
+export type TDaily = TTransaction & { daily: number };
